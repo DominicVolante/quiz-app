@@ -1,0 +1,29 @@
+<!--  Welcome Snipet
+   <main>
+    <h3>Do you know your Capitals</h3>
+    <div class="group">
+      <div><button>Start</button></div>
+    </div>
+  </main>
+-->
+<!-- Question Snipet
+<main>
+  <h3>Question 1 of 5</h3>
+  <div class="group">
+    <div id="q1" class="item"><button>Answer 1</button></div>
+    <div id="q2" class="item"><button>Answer 2</button></div>
+    <div id="q3" class="item"><button>Answer 3</button></div>
+    <div id="q4" class="item"><button>Answer 4</button></div>
+  </div>
+
+</main>
+-->
+
+<!-- Reset Snipet
+<main>
+    <h3>You answered 4 out of 5</h3>
+    <div class="group">
+      <div><button>Reset</button></div>
+    </div>
+  </main>
+  -->
