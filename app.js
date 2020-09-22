@@ -54,7 +54,7 @@ const store = {
     }
   ],
   quizStarted: false,
-  questionNumber: 1,
+  questionNumber: 0,
   score: 0
 };
 
@@ -62,60 +62,7 @@ const store = {
 /********** TEMPLATE GENERATION FUNCTIONS **********/
 
 // These functions return HTML templates
-function questionTemplateGenerator() {
-  num = store.questionNumber;
-  if (submit.quizStarted === true) {
-    render();
-  }
-
-  $('main').on('click', '#startButton', function (event) {
-    store.quizStarted = true;
-    render();
-  })
-}
-
-function welcomeTemplateGenerator() {
-
-  html = `
-  <h3>Do you know your Capitals?</h3>
-  <div class="group01">
-    <div><button id="startButton">Start</button></div>
-  </div>
-
-`
-
-  $('.main').html(html);
-}
-
-function conclusionTemplateGenerator() {
-  html = `<h3>You answered ${store.score} out of ${store.questions.length}</h3>
-  <div class="group01">
-    <div><button id="resetButton">Reset</button></div>
-  </div>`
-  $('.main').html(html);
-
-  $('.main').on('click', '#resetButton', function (event) {
-    store.score = 0;
-    store.questionNumber = 1;
-    store.quizStarted = false;
-    render();
-  })
-}
-
-
-/********** RENDER FUNCTION(S) **********/
-
-// This function conditionally replaces the contents of the <main> tag based on the state of the store
-
-function render() {
-  num = store.questionNumber;
-  console.log("question number: "+num);
-  console.log("score: "+store.score);
-
-  if (num === 6) {
-    conclusionTemplateGenerator();
-    return;
-  }
+function questionTemplate(){
   html = `<h3>Question ${store.questionNumber} of 5</h3>
   <h2>${store.questions[num - 1].question}</h2>
   
@@ -150,42 +97,79 @@ function render() {
   <h5>${store.score} out of 5 Correct</h5>
   
   `
+  return html
+}
+
+
+function welcomeTemplateGenerator() {
+
+  html = `
+  <h3>Do you know your Capitals?</h3>
+  <div class="group01">
+    <div><button id="startButton">Start</button></div>
+  </div>
+
+`
+
+  return html;
+}
+
+function conclusionTemplateGenerator() {
+  html = `<h3>You answered ${store.score} out of ${store.questions.length}</h3>
+  <div class="group01">
+    <div><button id="resetButton">Reset</button></div>
+  </div>`
+
+  return html
+  /*
+  $('.main').html(html);
+
+
+  */
+}
+
+
+/********** RENDER FUNCTION(S) **********/
+
+// This function conditionally replaces the contents of the <main> tag based on the state of the store
+
+function render() {
+  num = store.questionNumber;
+  if (store.quizStarted = false){
+    html = welcomeTemplateGenerator();
+  }
+  if (num > 0 && num < 6){
+    html = questionTemplate()
+  }
+
+  if (num === 6) {
+    html = conclusionTemplateGenerator();
+  }
+  
   $('.main').html(html);
 }
+
+
 
 /********** EVENT HANDLER FUNCTIONS **********/
 
 // These functions handle events (submit, click, etc)
 //checks answer on submit
-function answerCheck() {
+function quizStart() {
+  $('main').on('click', '#startButton', function (event) {
+    store.quizStarted = true;
+    store.questionNumber++;
+    render();
+  
 
-  /*
-     num = store.questionNumber;
-     let id = $(this).attr('id');
-     
-     if(id === store.questions[num].correctAnswer)
-     {
-       $('main').on('submit','form',function(eventa)
-       {
-         store.score++;
-         store.questionNumber++;
-         update();
-          
-       })
-     }
-     else
-     {
-       $('main').on('submit','form',function(eventb)
-       {
-         store.questionNumber++;
-         update();
-        })
-     }
-   
-     */
 
+  
+  })
+
+  
 
 }
+
 
 function submit() {
   num = store.questionNumber;
@@ -220,17 +204,23 @@ function next(){
 
 //Resets the test back to the welcome page
 function resetTest() {
-
+  $('.main').on('click', '#resetButton', function (event) {
+    store.score = 0;
+    store.questionNumber = 1;
+    store.quizStarted = false;
+    render();
+  })
 }
 
 /**** jQuery function ****/
 
 function main() {
-  welcomeTemplateGenerator();
-  questionTemplateGenerator();
-  answerCheck();
+  html = welcomeTemplateGenerator();
+  $('.main').html(html);
+  quizStart();
   submit();
-  next()
+  next();
+  resetTest();
 
 };
 
